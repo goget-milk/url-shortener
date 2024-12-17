@@ -1,6 +1,8 @@
 package main
 
 import (
+	"github.com/goget-milk/url-shortener/internal/http-server/handlers/delete"
+	"github.com/goget-milk/url-shortener/internal/http-server/handlers/redirect"
 	"log/slog"
 	"net/http"
 	"os"
@@ -29,7 +31,7 @@ func main() {
 
 	storage, err := sqlite.New(cfg.StoragePath)
 	if err != nil {
-		log.Error("fied to init storage", sl.Err(err))
+		log.Error("filed to init storage", sl.Err(err))
 		os.Exit(1)
 	}
 
@@ -44,6 +46,8 @@ func main() {
 	router.Use(middleware.URLFormat)
 
 	router.Post("/url", save.New(log, storage))
+	router.Get("/{alias}", redirect.New(log, storage))
+	router.Delete("/{alias}", delete.New(log, storage))
 
 	log.Info("starting server", slog.String("address", cfg.HTTPServer.Address))
 

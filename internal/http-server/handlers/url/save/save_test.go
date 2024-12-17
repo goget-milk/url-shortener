@@ -9,8 +9,8 @@ import (
 	"net/http/httptest"
 	"testing"
 
-	"github.com/goget-milk/url-shortener/internal/http-server/handlers/url/mocks"
 	"github.com/goget-milk/url-shortener/internal/http-server/handlers/url/save"
+	"github.com/goget-milk/url-shortener/internal/http-server/handlers/url/save/mocks"
 	"github.com/goget-milk/url-shortener/internal/lib/logger/handlers/slogdiscard"
 	"github.com/stretchr/testify/mock"
 	"github.com/stretchr/testify/require"

@@ -25,12 +25,13 @@ type Response struct {
 	Alias         string `json:"alias,omitempty"`
 }
 
+// TODO: maby move to  config
+const aliasLength = 6
+
+//go:generate go run github.com/vektra/mockery/v2@v2.50.0 --name=URLSaver
 type URLSaver interface {
 	SaveURL(urlToSave string, alias string) (int64, error)
 }
-
-// TODO: maby move to  config
-const aliasLength = 6
 
 func New(log *slog.Logger, urlSaver URLSaver) http.HandlerFunc {
 	return func(w http.ResponseWriter, r *http.Request) {
@@ -75,9 +76,9 @@ func New(log *slog.Logger, urlSaver URLSaver) http.HandlerFunc {
 		}
 
 		if err != nil {
-			log.Error("failed to save url", sl.Err(err))
+			log.Error("failed to add url", sl.Err(err))
 
-			render.JSON(w, r, resp.Error("failed to save url"))
+			render.JSON(w, r, resp.Error("failed to add url"))
 
 			return
 		}
